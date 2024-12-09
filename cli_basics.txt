@@ -1,0 +1,46 @@
+Option 1: Switch Back to GUI Temporarily
+If you're in TTY mode (Ctrl + Alt + F2, for example), you can switch back to the GUI (where the graphical server is running) by pressing Ctrl + Alt + F1 (or Ctrl + Alt + F7 depending on your system).
+
+Once you're back in the GUI, you can open applications like Firefox, VS Code, or ChatGPT through the browser.
+Option 2: Start GUI Applications from the CLI in a Running GUI Session
+If your system is in CLI-only mode (no GUI running), but you want to run a GUI application:
+
+Start the graphical server manually:
+
+bash
+Copy code
+startx
+This command will start an X session, allowing GUI applications to run.
+
+Alternatively, if you want to switch back to a graphical environment but retain CLI functionality, you can switch to the graphical.target:
+
+bash
+Copy code
+sudo systemctl set-default graphical.target
+sudo systemctl start graphical.target
+Option 3: Use Remote X Server (Advanced)
+You can run GUI applications over an SSH connection with X forwarding. For example, if you want to open a Firefox browser remotely on another machine or in an environment without a graphical server:
+
+First, install the X server if not installed:
+bash
+Copy code
+sudo apt install xorg
+Then, start the application with X forwarding (if over SSH):
+bash
+Copy code
+ssh -X user@remote-server
+firefox
+This method lets you run graphical applications over the network, but you still need some kind of graphical environment (even if remote).
+
+3. Alternative CLI-Based Tools:
+If you want to use the CLI for tasks usually done with GUI tools, there are alternatives:
+
+Text Browsers: You can use text-based browsers like lynx or w3m to browse the web from the CLI:
+
+bash
+Copy code
+sudo apt install lynx
+lynx example.com
+CLI Text Editors: Use editors like vim or nano instead of VS Code.
+
+ChatGPT CLI Client: You can interact with ChatGPT via a CLI client, but this would require an API key and installation of a tool such as openai-cli. Unfortunately, it won't work in full offline CLI mode without internet access.

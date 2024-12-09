@@ -1,0 +1,204 @@
+Linux Basics
+
+/bin 
+user level commands (cat, cd, ls, etc..)
+
+/sbin
+Filesystem level commands (booting, restoring, recovering, repairing the system)
+
+/etc 
+configuration files
+
+/dev
+device files (disk)
+
+/proc
+Running process files
+
+/var
+system logs
+
+/temp
+temp files
+
+/usr
+user programs
+
+/home
+/directory for user
+
+/boot 
+contains files used by boot loader (grub.cfg)
+
+/lib
+c-programming files needed by commands and apps
+
+/opt 
+optional 3rd party files
+
+/mount
+to mount removable media manually 
+
+/media 
+to mount external hardisk, flashdrive
+
+/srv
+site specific data
+
+
+ls - list the files
+su - switch user 
+-l - list in detail
+ for eg ls -l => will give list in detailed
+wild card characters
+* - used to give name related files
+ for eg ls -l Do* => give the list of file that starts with Do
+? - when you have similar file name 
+ for eg ls -l co?e => shows file like code core cole etc..
+mkdir - make directory
+touch - create file
+cp - copy
+
+pavin@pavin-OMEN-by-HP-Gaming-Laptop-16-xd0xxx:~$ touch chumma/file1.txt chumma/file2.txt chumma/file3.txt
+pavin@pavin-OMEN-by-HP-Gaming-Laptop-16-xd0xxx:~$ ls chumma
+file1.txt  file2.txt  file3.txt
+pavin@pavin-OMEN-by-HP-Gaming-Laptop-16-xd0xxx:~$ cp chumma/file?.txt Documents/
+pavin@pavin-OMEN-by-HP-Gaming-Laptop-16-xd0xxx:~$ ls Documents
+ file1.txt   file2.txt   file3.txt  'PT-1 Abstract.docx'
+
+rm - remove 
+ rm filename  rm -r foldername
+ 
+r - recursive (first delete the file and then folder)
+rmdir - delete empty directories
+echo - used to write content in terminal
+ Eg => echo "This is the content" > Documents/example.txt
+ 
+cat - write the content in terminal 
+ Eg => cat Documents/example.txt  (This displays the content from the file)
+ 
+Link is one of the crucial factor in linux cmds (ln)
+symbolic link - not an exact copy but a typical redirection
+	ln - s ~/Documents/example.txt ~/Desktop/example_symlink.txt
+	To create link for existing we can use sf(sym link force) instead of s
+Hardlink - Direct copy with Inode of data 
+	ln ~/Documents/example.txt ~/Desktop/example_symlink.txt
+	(even if delete the original the file be still available)
+
+mv - Rename the file
+	mv oldname newname
+-i - interactive (ask for confirmation)
+
+Types of way to view content
+cat 
+more - can be used with down arrow
+less - can be used with arrow keys 
+head - only gives first 10 lines
+	we can also alter it by head -n 2 filename (this shows first 2 lines of the content)
+tail - similar but comes from last
+nl - numbered lines
+vi - editor within terminal 
+
+to exit from view press q 
+to exit from editor press :q
+
+find - used to find particular file from folder
+	pavin@pavin-OMEN-by-HP-Gaming-Laptop-16-xd0xxx:~$ find ~/ -name "new_example.txt"
+	/home/pavin/Documents/new_example.txt
+	
+	It can be found using name, extension(*.txt), directory(-type d folder_name), file(-type f file_name),modified_date(-mtime -1){shows files modified within 1 day} (-mtime +1){shows files modified before 1 day}
+	
+	pavin@pavin-OMEN-by-HP-Gaming-Laptop-16-xd0xxx:~$ cat Documents/new_example.txt 
+	pavin@pavin-OMEN-by-HP-Gaming-Laptop-16-xd0xxx:~$ find ~ -type f -exec grep "Soldiers" {} \;
+	Hi Soldiers
+	 
+	grep: /home/pavin/.cache/tracker3/files/http%3A%2F%2Ftracker.api.gnome.org%2Fontology%2Fv3%2Ftracker%23Documents.db-wal: binary file matches
+	grep: /home/pavin/.config/microsoft-edge/Default/IndexedDB/https_coinmarketcap.com_0.indexeddb.blob/2/00/3: binary file matches
+	echo "Hi Soldiers" > Documents/new_example.txt 
+	pavin@pavin-OMEN-by-HP-Gaming-Laptop-16-xd0xxx:~$ 
+	pavin@pavin-OMEN-by-HP-Gaming-Laptop-16-xd0xxx:~$ find ~ -type f -exec grep -l "Soldiers" {} \;
+	/home/pavin/Documents/new_example.txt
+	/home/pavin/.cache/tracker3/files/http%3A%2F%2Ftracker.api.gnome.org%2Fontology%2Fv3%2Ftracker%23Documents.db-wal
+	/home/pavin/.config/microsoft-edge/Default/IndexedDB/https_coinmarketcap.com_0.indexeddb.blob/2/00/3
+	/home/pavin/.bash_history
+
+	
+locate - used to find the file faster than find where all data stored in db ( initially we will do it by installing locate (sudo apt install locate) then sudo updatedb
+
+which - shows from where the command is working (shows binary file)
+whereis - shows both binary and help file
+man - used to show help for particular command
+-exec - used to execute some other command within a command
+
+chmod - used to modify the permission of the file (read, write, execute) for (user, group, others)
+	r - read		u - user
+	w - write 		g - group
+	x - execute		o - others
+thor - pass: type@123
+
+su - switch user 
+
+To create new user: sudo useradd thor -m
+In order to create a password: sudo passwd thor
+To give bash access: su - thor
+
+To create a group: sudo groupadd groupname
+To add the user in that group: sudo usermod -aG groupname thor (-a > means we are going add user, G to remain the user in other groups)
+to see the users group: groups thor
+
+Example: To give rx to other users
+	sudo chmod o+rx /home
+chown - to give access to others or group
+	sudo chown :soldiers Documents/new_example.txt 
+here we are removing access: sudo chmod g-rwx Documents/new_example.txt 
+
+File ownership:
+	su root 
+	touch adminfile (Owner: root)
+	chown pavin adminfile (ownership changed from root to pavin)
+	
+	For Group we will mention with (:)
+	chown :groupname adminfile
+	
+File compression:
+	c - create new archive 
+	z - archive using certain program (gzip)
+	v - used to make list of files/directories being compressed
+	f - filename for compression
+	
+	For Example,
+		tar -czvf avengers_compressed.tar.gz avengers/  => This is how to compress a particular folder
+		avengers/			}	
+		avengers/thor.txt 		} Use of v in czvf
+
+	zip -r avengers_compressed.zip avengers => using zip
+	gzip avengers/thor.txt => using gzip to compress a file
+	
+File extraction:
+	x - extract the archive
+	z, v, f 
+	
+	For Example,
+		tar -xzvf avengers_compressed.tar.gz  -C ~/Desktop/ => C is used to extract the directory in specific folder
+		avengers/
+		avengers/thor.txt
+	
+	unzip avengers_compressed.zip -d ~/Desktop/ => using zip and d used to extract in specific directory
+	gunzip thor.txt.gz => Unzip the file
+
+Environment Variable:
+	
+	To get Env of paritcular thing:
+	pavin@pavin-OMEN-by-HP-Gaming-Laptop-16-xd0xxx:~$ printenv HOME
+	/home/pavin
+	pavin@pavin-OMEN-by-HP-Gaming-Laptop-16-xd0xxx:~$ echo $HOME
+	/home/pavin
+
+To boot system only with CLI : sudo systemctl set-default multi-user.target and sudo reboot to restart
+To get back to GUI : sudo systemctl set-default graphical.target
+
+How to run c program:
+
+for eg: bankers.c
+gcc bankers.c -o bankers
+./bankers
